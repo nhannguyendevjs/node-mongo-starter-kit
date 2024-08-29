@@ -4,7 +4,7 @@ I'm Nhan, a software engineer from Vietnam, currently living in Ho Chi Minh City
 
 ## What I do
 
-I'm a web developer, and I am really passionate about learning web development.
+I'm a web developer, and I am passionate about learning web development.
 
 ## Things I code with
 
