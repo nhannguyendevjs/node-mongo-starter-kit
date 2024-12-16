@@ -48,6 +48,13 @@ app.use('/', (req, res) => {
 // Use helmet middleware after api-docs route
 // Issue: https://github.com/scottie1984/swagger-ui-express/issues/212
 app.use(helmet());
+// Example CSP
+// app.use(helmet.contentSecurityPolicy({
+//   directives: {
+//     defaultSrc: ["'self'"],
+//     scriptSrc: ["'self'", "'unsafe-inline'"]
+//   }
+// }));
 
 let appWorker;
 
