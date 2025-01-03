@@ -171,7 +171,8 @@ Use clear, descriptive names. Use camelCase for multi-word names. Avoid using Mo
 
 ## Visual Studio Extensions
 
-* Prettier - Code formatter
+* Prettier
+* ESLint
 * SonarLint
 * Code Spell Checker
 
