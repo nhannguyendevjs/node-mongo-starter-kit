@@ -12,8 +12,8 @@ const swaggerJsdocOptions = {
     openapi: '3.0.0',
     info: {
       title: 'Node postgres starter kit',
-      version: '0.0.0',
-      description: 'This is a REST API application made with Express.',
+      version: '1.0.0',
+      description: 'This is a RESTful API application made with Express.',
       license: {
         name: 'Licensed Under MIT',
         url: 'https://github.com/nhannguyendevjs/node-mongo-starter-kit/blob/master/LICENSE',
