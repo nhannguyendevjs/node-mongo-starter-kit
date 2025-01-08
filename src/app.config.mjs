@@ -14,11 +14,6 @@ export const LoggerConfigs = {
   ENABLE_LOGGER_POSTGRES: process.env.ENABLE_LOGGER_POSTGRES,
 };
 
-export const BullMQConfigs = {
-  ENABLE_BULLMQ: process.env.ENABLE_BULLMQ,
-  BULLMQ_ADMIN_PATH: process.env.BULLMQ_ADMIN_PATH,
-};
-
 export const RequestConfigs = {
   ENABLE_REQUEST: process.env.ENABLE_REQUEST,
   REQUEST_TIMEOUT: process.env.REQUEST_TIMEOUT,
@@ -30,6 +25,17 @@ export const JWTConfigs = {
   JWT_REFRESH_TOKEN_SECRET: process.env.JWT_REFRESH_TOKEN_SECRET,
   JWT_ACCESS_TOKEN_EXPIRATION_TIME: process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME,
   JWT_REFRESH_TOKEN_EXPIRATION_TIME: process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME,
+};
+
+export const RedisConfigs = {
+  ENABLE_REDIS: process.env.ENABLE_REDIS,
+  REDIS_HOST: process.env.REDIS_HOST,
+  REDIS_PORT: process.env.REDIS_PORT,
+};
+
+export const BullMQConfigs = {
+  ENABLE_BULLMQ: process.env.ENABLE_BULLMQ,
+  BULLMQ_ADMIN_PATH: process.env.BULLMQ_ADMIN_PATH,
 };
 
 export const MongoDBConfigs = {
