@@ -2,23 +2,27 @@ import { createBullBoard } from '@bull-board/api';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter.js';
 import { ExpressAdapter } from '@bull-board/express';
 import { Queue, QueueEvents, Worker } from 'bullmq';
-import IORedis from 'ioredis';
-import { BullMQConfigs, RequestConfigs } from '../../app.config.mjs';
+import { BullMQConfigs } from '../../app.config.mjs';
 import { Logger } from '../logger/logger.mjs';
 import { sampleEventHandler } from './event-handlers/sample-event-handler.mjs';
 import { sampleProcessor } from './processors/sample-processor.mjs';
+import { connection as redisConnection } from '../redis/redis.mjs';
 
-const connection = new IORedis({ host: RequestConfigs.REDIS_HOST, port: RequestConfigs.REDIS_PORT, maxRetriesPerRequest: null });
+const appQueue = (() => {
+  if (!BullMQConfigs.ENABLE_BULLMQ) {
+    return;
+  }
 
-const appQueue = new Queue('App Queue', { connection });
+  return new Queue('App Queue', { redisConnection });
+})();
 
-const serverAdapter = new ExpressAdapter();
-serverAdapter.setBasePath(`/api/v1${BullMQConfigs.BULLMQ_ADMIN_PATH}`);
+const serverAdapter = (() => {
+  if (!BullMQConfigs.ENABLE_BULLMQ) {
+    return;
+  }
 
-createBullBoard({
-  queues: [new BullMQAdapter(appQueue)],
-  serverAdapter,
-});
+  return new ExpressAdapter();
+})();
 
 const addJobs = async (jobs = []) => {
   if (jobs.length > 0) {
@@ -29,9 +33,12 @@ const addJobs = async (jobs = []) => {
   }
 };
 
-{
-  // Worker
-  const worker = new Worker(
+const worker = (() => {
+  if (!BullMQConfigs.ENABLE_BULLMQ || !redisConnection) {
+    return;
+  }
+
+  return new Worker(
     'App Queue',
     async (job) => {
       switch (job.name) {
@@ -46,18 +53,32 @@ const addJobs = async (jobs = []) => {
           break;
       }
     },
-    { connection }
+    { redisConnection }
   );
-}
+})();
 
-{
-  // Queue Events
-  const queueEvents = new QueueEvents('App Queue', { connection });
+const queueEvents = (() => {
+  if (!BullMQConfigs.ENABLE_BULLMQ || !redisConnection) {
+    return;
+  }
+
+  return new QueueEvents('App Queue', { redisConnection });
+})();
+
+const bootstrap = async () => {
+  if (!BullMQConfigs.ENABLE_BULLMQ) {
+    return;
+  }
+  serverAdapter.setBasePath(`/api/v1${BullMQConfigs.BULLMQ_ADMIN_PATH}`);
+
+  createBullBoard({
+    queues: [new BullMQAdapter(appQueue)],
+    serverAdapter,
+  });
 
   queueEvents.on('waiting', ({ jobId }) => {
     Logger.log('info', `A job with ID ${jobId} is waiting`);
   });
-
   queueEvents.on('active', ({ jobId, prev }) => {
     (async () => {
       Logger.log('info', `Job ${jobId} is now active; previous status was ${prev}`);
@@ -65,7 +86,6 @@ const addJobs = async (jobs = []) => {
       await sampleEventHandler(job);
     })();
   });
-
   queueEvents.on('completed', ({ jobId, returnvalue }) => {
     (async () => {
       Logger.log('info', `${jobId} has completed and returned ${returnvalue}`);
@@ -73,16 +93,11 @@ const addJobs = async (jobs = []) => {
       await job.updateProgress(100);
     })();
   });
-
   queueEvents.on('failed', ({ jobId, failedReason }) => {
     Logger.log('info', `${jobId} has failed with reason ${failedReason}`);
   });
-}
 
-const bootstrap = async () => {
-  if (BullMQConfigs.ENABLE_BULLMQ) {
-    Logger.log('info', `BullMQ is ready to use`);
-  }
+  Logger.log('info', `BullMQ is ready to use`);
 };
 
 export { addJobs, bootstrap, serverAdapter };

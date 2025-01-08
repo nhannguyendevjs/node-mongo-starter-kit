@@ -1,8 +1,8 @@
 import express from 'express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-// import { BullMQConfigs } from '../../app.config.mjs';
-// import * as bullmq from '../../services/bullmq/bullmq.mjs';
+import { BullMQConfigs } from '../../app.config.mjs';
+import * as bullmq from '../../services/bullmq/bullmq.mjs';
 import { AuthRouter } from './auth/auth.controller.mjs';
 import { PingRouter } from './ping/ping.controller.mjs';
 import { UsersRouter } from './users/users.controller.mjs';
@@ -27,15 +27,74 @@ const swaggerJsdocOptions = {
   apis: ['./routes/v1/ping/*.controller.mjs', './routes/v1/auth/*.controller.mjs', './routes/v1/users/*.controller.mjs'],
 };
 
-const router = express.Router();
+const appRouter = express.Router();
+const appRoutes = [];
 
-router
-  .use('/ping', PingRouter)
-  .use('/auth', AuthRouter)
-  .use('/users', UsersRouter)
-  // .use(BullMQConfigs.BULLMQ_ADMIN_PATH, bullmq.serverAdapter.getRouter())
-  .use('/api-docs', swaggerUi.serve)
-  .get('/api-docs', swaggerUi.setup(swaggerJsdoc(swaggerJsdocOptions)));
+// Ping routes
+appRoutes.push({
+  method: '',
+  path: '/ping',
+  router: PingRouter,
+});
 
-export { router as V1Router };
+// AUTH routes
+appRoutes.push({
+  method: '',
+  path: '/auth',
+  router: AuthRouter,
+});
 
+// Users routes
+appRoutes.push({
+  method: '',
+  path: '/users',
+  router: UsersRouter,
+});
+
+// BullMQ routes
+if (BullMQConfigs.ENABLE_BULLMQ) {
+  appRoutes.push({
+    method: '',
+    path: BullMQConfigs.BULLMQ_ADMIN_PATH,
+    router: bullmq.serverAdapter.getRouter(),
+  });
+}
+
+// Swagger routes
+appRoutes.push({
+  method: '',
+  path: '/api-docs',
+  router: swaggerUi.serve,
+});
+appRoutes.push({
+  method: 'GET',
+  path: '/api-docs',
+  router: swaggerUi.setup(swaggerJsdoc(swaggerJsdocOptions)),
+});
+
+appRoutes.forEach((route) => {
+  const { method, path, router } = route;
+
+  switch (method) {
+    case 'GET':
+      appRouter.get(path, router);
+      break;
+    case 'POST':
+      appRouter.post(path, router);
+      break;
+    case 'PUT':
+      appRouter.put(path, router);
+      break;
+    case 'DELETE':
+      appRouter.delete(path, router);
+      break;
+    case 'PATCH':
+      appRouter.patch(path, router);
+      break;
+    default:
+      appRouter.use(path, router);
+      break;
+  }
+});
+
+export { appRouter as V1Router };

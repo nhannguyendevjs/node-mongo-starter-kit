@@ -6,23 +6,25 @@ import helmet from 'helmet';
 import multer from 'multer';
 import path from 'node:path';
 import { Worker } from 'worker_threads';
-import { RequestConfigs, bootstrap as bootstrapAppConfig } from './app.config.mjs';
+import { bootstrap as bootstrapAppConfig, RequestConfigs } from './app.config.mjs';
 import { cacheControlNoStore } from './middleware/cache-control.mjs';
 import { V1Router } from './routes/v1/v1.mjs';
 
 // Bootstrapping
+import { bootstrap as bootstrapBullMQService } from './services/bullmq/bullmq.mjs';
 import { bootstrap as bootstrapLoggerService, Logger } from './services/logger/logger.mjs';
-// import {bootstrap as bootstrapMongoDBService} from './services/mongodb/mongodb.mjs';
-// import {bootstrap as bootstrapMongooseService} from './services/mongoose/mongoose.mjs';
-// import {bootstrap as bootstrapPostgresService} from './services/postgres/postgres.mjs';
-// import {bootstrap as bootstrapBullMQService} from './services/bullmq/bullmq.mjs';
+import { bootstrap as bootstrapMongoDBService } from './services/mongodb/mongodb.mjs';
+import { bootstrap as bootstrapMongooseService } from './services/mongoose/mongoose.mjs';
+import { bootstrap as bootstrapPostgresService } from './services/postgres/postgres.mjs';
+import { bootstrap as bootstrapRedisService } from './services/redis/redis.mjs';
 
 await bootstrapAppConfig();
 await bootstrapLoggerService();
-// await bootstrapMongoDBService();
-// await bootstrapMongooseService();
-// await bootstrapPostgresService();
-// await bootstrapBullMQService();
+await bootstrapMongoDBService();
+await bootstrapMongooseService();
+await bootstrapPostgresService();
+await bootstrapRedisService();
+await bootstrapBullMQService();
 
 const __dirname = path.resolve();
 
