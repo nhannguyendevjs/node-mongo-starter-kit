@@ -1,0 +1,9 @@
+model Logs {
+  id        Int     @id @default(autoincrement())
+  level     String?
+  timestamp String?
+  message   String?
+  meta      Json?
+
+  @@map("logs")
+}

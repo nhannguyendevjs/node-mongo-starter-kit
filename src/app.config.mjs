@@ -8,9 +8,20 @@ export const GeneralConfigs = {
   APP_ENV: process.env.APP_ENV,
 };
 
+export const LoggerConfigs = {
+  ENABLE_LOGGER_CONSOLE: process.env.ENABLE_LOGGER_CONSOLE,
+  ENABLE_LOGGER_FILE: process.env.ENABLE_LOGGER_FILE,
+  ENABLE_LOGGER_POSTGRES: process.env.ENABLE_LOGGER_POSTGRES,
+};
+
 export const BullMQConfigs = {
   ENABLE_BULLMQ: process.env.ENABLE_BULLMQ,
   BULLMQ_ADMIN_PATH: process.env.BULLMQ_ADMIN_PATH,
+};
+
+export const RequestConfigs = {
+  ENABLE_REQUEST: process.env.ENABLE_REQUEST,
+  REQUEST_TIMEOUT: process.env.REQUEST_TIMEOUT,
 };
 
 export const JWTConfigs = {
@@ -19,11 +30,6 @@ export const JWTConfigs = {
   JWT_REFRESH_TOKEN_SECRET: process.env.JWT_REFRESH_TOKEN_SECRET,
   JWT_ACCESS_TOKEN_EXPIRATION_TIME: process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME,
   JWT_REFRESH_TOKEN_EXPIRATION_TIME: process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME,
-};
-
-export const LoggerConfigs = {
-  ENABLE_LOGGER_CONSOLE: process.env.ENABLE_LOGGER_CONSOLE,
-  ENABLE_LOGGER_FILE: process.env.ENABLE_LOGGER_FILE,
 };
 
 export const MongoDBConfigs = {
@@ -35,9 +41,14 @@ export const MongoDBConfigs = {
   MONGO_DBNAME: process.env.APP_DOMAIN,
 };
 
-export const RequestConfigs = {
-  ENABLE_REQUEST: process.env.ENABLE_REQUEST,
-  REQUEST_TIMEOUT: process.env.REQUEST_TIMEOUT,
+export const PostgresConfigs = {
+  ENABLE_POSTGRES: process.env.ENABLE_POSTGRES,
+  POSTGRES_URI: process.env.POSTGRES_URI,
+};
+
+export const PrismaConfigs = {
+  ENABLE_PRISMA: process.env.ENABLE_PRISMA,
+  PRISMA_DATABASE_URL: process.env.PRISMA_DATABASE_URL,
 };
 
 export const bootstrap = async () => {

@@ -6,22 +6,23 @@ import helmet from 'helmet';
 import multer from 'multer';
 import path from 'node:path';
 import { Worker } from 'worker_threads';
-import { RequestConfigs } from './app.config.mjs';
+import { RequestConfigs, bootstrap as bootstrapAppConfig } from './app.config.mjs';
 import { cacheControlNoStore } from './middleware/cache-control.mjs';
 import { V1Router } from './routes/v1/v1.mjs';
 
-// Bootstrap modules and services
-import * as AppConfigModule from './app.config.mjs';
-import * as BullMQService from './services/bullmq/bullmq.mjs';
-import * as LoggerService from './services/logger/logger.mjs';
-import * as MongoDBService from './services/mongodb/mongodb.mjs';
-import * as MongooseService from './services/mongoose/mongoose.mjs';
+// Bootstrapping
+import { bootstrap as bootstrapLoggerService, Logger } from './services/logger/logger.mjs';
+// import {bootstrap as bootstrapMongoDBService} from './services/mongodb/mongodb.mjs';
+// import {bootstrap as bootstrapMongooseService} from './services/mongoose/mongoose.mjs';
+// import {bootstrap as bootstrapPostgresService} from './services/postgres/postgres.mjs';
+// import {bootstrap as bootstrapBullMQService} from './services/bullmq/bullmq.mjs';
 
-await AppConfigModule.bootstrap();
-await LoggerService.bootstrap();
-await MongoDBService.bootstrap();
-await MongooseService.bootstrap();
-await BullMQService.bootstrap();
+await bootstrapAppConfig();
+await bootstrapLoggerService();
+// await bootstrapMongoDBService();
+// await bootstrapMongooseService();
+// await bootstrapPostgresService();
+// await bootstrapBullMQService();
 
 const __dirname = path.resolve();
 
@@ -41,7 +42,7 @@ app.use(cacheControlNoStore);
 app.use('/api/v1', V1Router);
 
 app.use('/', (req, res) => {
-  LoggerService.Logger.log('error', `[${req.ip}] ${req.method} ${req.originalUrl} 404`);
+  Logger.log('error', `[${req.ip}] ${req.method} ${req.originalUrl} 404`);
   res.status(404).json({ message: 'Not found' });
 });
 
@@ -60,7 +61,7 @@ let appWorker;
 
 appWorker = new Worker(__dirname + '/worker-threads/app.worker.mjs', { workerData: 'ping' });
 appWorker.on('message', (res) => {
-  LoggerService.Logger.log('info', res.value);
+  Logger.log('info', res.value);
 });
 
 export default app;
