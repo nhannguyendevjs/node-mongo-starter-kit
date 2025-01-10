@@ -2,9 +2,19 @@ import { Logger } from '../logger/logger.mjs';
 import { PrismaClient } from '@prisma/client';
 import { PrismaConfigs } from '../../app.config.mjs';
 
-const prisma = new PrismaClient();
+const prisma = (() => {
+  if (!PrismaConfigs.ENABLE_PRISMA) {
+    return;
+  }
+
+  return new PrismaClient();
+})();
 
 const disconnect = async () => {
+  if (!PrismaConfigs.ENABLE_PRISMA || !prisma) {
+    return;
+  }
+
   await prisma.$disconnect();
 };
 

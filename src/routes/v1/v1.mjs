@@ -26,7 +26,7 @@ const swaggerJsdocOptions = {
     },
     servers: [
       {
-        url: `http://${GeneralConfigs.HOSTNAME}:${GeneralConfigs.HOST_PORT}`,
+        url: `http://${GeneralConfigs.HOST_IP}:${GeneralConfigs.HOST_PORT}/api/${GeneralConfigs.API_VERSION}`,
         description: '',
       },
     ],

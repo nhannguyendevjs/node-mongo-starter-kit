@@ -8,9 +8,9 @@ import app from './app.mjs';
 const server = http.createServer(app);
 
 server.once('listening', () => {
-  Logger.log('info', `Server listening at http://${GeneralConfigs.HOSTNAME}:${GeneralConfigs.HOST_PORT} in ${GeneralConfigs.APP_ENV} environment`);
+  Logger.log('info', `Server listening at http://${GeneralConfigs.HOST_IP}:${GeneralConfigs.HOST_PORT} in ${GeneralConfigs.APP_ENV} environment`);
 });
-server.listen({ port: GeneralConfigs.HOST_PORT, hostname: GeneralConfigs.HOSTNAME });
+server.listen({ port: GeneralConfigs.HOST_PORT, hostname: GeneralConfigs.HOST_IP });
 [('exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'uncaughtException', 'SIGTERM')].forEach((eventType) => {
   process.on(eventType, (eventDetails) => {
     cleanUp.bind(null, eventType, eventDetails)();
