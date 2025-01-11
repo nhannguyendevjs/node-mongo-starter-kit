@@ -11,7 +11,7 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\index.mjs",
       "outputCapture": "std",
-      "envFile": "${workspaceFolder}\\environments\\.dev.env"
+      "envFile": "${workspaceFolder}\\environments\\.pure.env"
     }
   ]
 }

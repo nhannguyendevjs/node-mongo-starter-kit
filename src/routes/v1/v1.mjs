@@ -1,10 +1,11 @@
 import express from 'express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { BullMQConfigs } from '../../app.config.mjs';
+import { BullMQConfigs, GeneralConfigs } from '../../app.config.mjs';
 import * as bullmq from '../../services/bullmq/bullmq.mjs';
 import { AuthRouter } from './auth/auth.controller.mjs';
 import { PingRouter } from './ping/ping.controller.mjs';
+import { TemplateRouter } from './template/template.controller.mjs';
 import { UsersRouter } from './users/users.controller.mjs';
 
 const swaggerJsdocOptions = {
@@ -23,8 +24,14 @@ const swaggerJsdocOptions = {
         url: 'https://github.com/nhannguyendevjs',
       },
     },
+    servers: [
+      {
+        url: `http://${GeneralConfigs.HOST_IP}:${GeneralConfigs.HOST_PORT}/api/${GeneralConfigs.API_VERSION}`,
+        description: '',
+      },
+    ],
   },
-  apis: ['./routes/v1/ping/*.controller.mjs', './routes/v1/auth/*.controller.mjs', './routes/v1/users/*.controller.mjs'],
+  apis: ['./routes/v1/ping/*.controller.mjs', './routes/v1/auth/*.controller.mjs', './routes/v1/users/*.controller.mjs', './routes/v1/template/*.controller.mjs'],
 };
 
 const appRouter = express.Router();
@@ -49,6 +56,13 @@ appRoutes.push({
   method: '',
   path: '/users',
   router: UsersRouter,
+});
+
+// Template routes
+appRoutes.push({
+  method: '',
+  path: '/template',
+  router: TemplateRouter,
 });
 
 // BullMQ routes
@@ -98,3 +112,4 @@ appRoutes.forEach((route) => {
 });
 
 export { appRouter as V1Router };
+

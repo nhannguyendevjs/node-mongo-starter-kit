@@ -1,6 +1,6 @@
 export const GeneralConfigs = {
-  HOST_ENV: process.env.HOST_ENV,
   HOSTNAME: process.env.HOSTNAME,
+  HOST_IP: process.env.HOST_IP,
   HOST_PORT: process.env.HOST_PORT,
   APP_DOMAIN: process.env.APP_DOMAIN,
   APP_VERSION: process.env.APP_VERSION,
