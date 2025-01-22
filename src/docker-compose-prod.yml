@@ -17,6 +17,7 @@ services:
       - mongo
       - postgres
       - redis
+
   service2:
     image: node-mongo-starter-kit
     container_name: service2
@@ -32,6 +33,7 @@ services:
       - mongo
       - postgres
       - redis
+
   service3:
     image: node-mongo-starter-kit
     container_name: service3
@@ -47,6 +49,7 @@ services:
       - mongo
       - postgres
       - redis
+
   mongo:
     image: mongo:latest
     container_name: mongo
@@ -54,6 +57,7 @@ services:
       - '27017:27017'
     networks:
       - local
+
   postgres:
     image: postgres:latest
     container_name: postgres
@@ -61,6 +65,7 @@ services:
       - '5432:5432'
     networks:
       - local
+
   redis:
     image: redis:latest
     container_name: redis
@@ -68,6 +73,7 @@ services:
       - '6379:6379'
     networks:
       - local
+
   nginx:
     image: nginx:latest
     container_name: nginx
