@@ -66,7 +66,7 @@ mongodb://admin:admin@localhost:27017/
 ```bash
 docker run --name node-postgres --network node-mongo-network -p 5432:5432 -e POSTGRES_DB=node -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -d postgres:latest
 
-docker exec -it node-postgres
+docker exec -it node-postgres psql -U admin -d node
 ```
 
 #### URI
