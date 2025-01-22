@@ -13,6 +13,7 @@ services:
     networks:
       - local
     command: npm start
+
   service2:
     image: node-mongo-starter-kit
     container_name: service2
@@ -24,6 +25,7 @@ services:
     networks:
       - local
     command: npm start
+
   service3:
     image: node-mongo-starter-kit
     container_name: service3
@@ -35,6 +37,7 @@ services:
     networks:
       - local
     command: npm start
+
   nginx:
     image: nginx:latest
     container_name: nginx

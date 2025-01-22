@@ -25,7 +25,9 @@ Released under the [MIT License](LICENSE).
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=white&style=for-the-badge)
 ![Nodejs](https://img.shields.io/badge/Nodejs-43853d?logo=Node.js&logoColor=white&style=for-the-badge)
 ![MongoDB](https://img.shields.io/badge/MongoDB-13aa52?logo=mongodb&logoColor=white&style=for-the-badge)
+![Postgres](https://img.shields.io/badge/Postgres-316192?logo=postgresql&logoColor=white&style=for-the-badge)
 ![Docker](https://img.shields.io/badge/Docker-46a2f1?logo=docker&logoColor=white&style=for-the-badge)
+![Prisma](https://img.shields.io/badge/Prisma-ffffff?logo=prisma&logoColor=black&style=for-the-badge)
 
 ## Docker
 
@@ -57,6 +59,20 @@ docker exec -it node-mongo mongosh
 
 ```txt
 mongodb://admin:admin@localhost:27017/
+```
+
+### PostgreSQL
+
+```bash
+docker run --name node-postgres --network node-mongo-network -p 5432:5432 -e POSTGRES_DB=node -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -d postgres:latest
+
+docker exec -it node-postgres
+```
+
+#### URI
+
+```txt
+postgres://admin:admin@localhost:5432/node?schema=public
 ```
 
 ### Redis
