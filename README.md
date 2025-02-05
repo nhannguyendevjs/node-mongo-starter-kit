@@ -185,6 +185,79 @@ merge/combined-device-support
 
 Use clear, descriptive names. Use camelCase for multi-word names. Avoid using MongoDB reserved words.
 
+## RESTful API Design Rules
+
+### URI Design Rules
+
+* **Use nouns, not verbs**: URIs should represent resources (e.g., /users, /orders), not actions.
+* **Use plural nouns for collections**: /users instead of /user.
+* **Use hierarchical structure for relationships**: /users/{id}/orders instead of deep nesting.
+* **Avoid deep nesting**: Limit to 2-3 levels (e.g., /users/{id}/orders, not /users/{id}/orders/{orderId}/items/{itemId}).
+* **Use query parameters for filtering**: /orders?status=pending instead of /orders/pending.
+
+### HTTP Methods & Status Codes
+
+Use standard HTTP methods:
+
+* **GET** → Retrieve data
+* **POST** → Create new resources
+* **PUT** → Replace entire resource
+* **PATCH** → Update part of a resource
+* **DELETE** → Remove a resource
+
+Use appropriate HTTP status codes:
+
+* **200 OK** → Successful retrieval or update
+* **201 Created** → Resource successfully created
+* **204 No Content** → Successful delete/update with no return body
+* **400 Bad Request** → Invalid request
+* **401 Unauthorized** → Authentication required
+* **403 Forbidden** → No permission
+* **404 Not Found** → Resource doesn’t exist
+* **500 Internal Server Error** → Unexpected error
+
+### Hypermedia & Response Structure
+
+* Use HATEOAS (Hypermedia links for better navigation).
+* Return created resources with POST (or provide Location header).
+* Use consistent response formats (JSON).
+
+### Pagination & Filtering
+
+* Paginate large responses:
+
+  * Use limit and offset (GET /users?limit=20&offset=40).
+
+* Response should include metadata:
+
+```json
+{
+  "total": 1000,
+  "page": 3,
+  "per_page": 20,
+  "users": [ ... ]
+}
+```
+
+* Use query parameters for filtering:
+
+```plaintext
+/orders?status=shipped&date=2024-02-05
+```
+
+### API Versioning
+
+Version APIs to avoid breaking changes:
+
+* **Use URL versioning**: /v1/users
+* **Or use header versioning**: Accept: application/vnd.myapi.v1+json
+
+### Security & Authentication
+
+* Use HTTPS for all API requests.
+* Require authentication for sensitive data (JWT, OAuth, API Keys).
+* Use 403 Forbidden for unauthorized access attempts.
+
 ## Visual Studio Extensions
 
 * Prettier
