@@ -14,7 +14,7 @@ Node mongo starter kit
 
 ## License
 
-Copyright © 2024, [Nhan Nguyen](https://github.com/nhannguyendevjs).
+Copyright © 2025, [Nhan Nguyen](https://github.com/nhannguyendevjs).
 
 Released under the [MIT License](LICENSE).
 
@@ -23,7 +23,12 @@ Released under the [MIT License](LICENSE).
 ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white&style=for-the-badge)
 ![NPM](https://img.shields.io/badge/NPM-CB3837?logo=npm&logoColor=white&style=for-the-badge)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=white&style=for-the-badge)
+![HTML](https://img.shields.io/badge/HTML-E34F26?logo=html5&logoColor=white&style=for-the-badge)
+![CSS](https://img.shields.io/badge/CSS-2F4BD8?logo=css3&logoColor=white&style=for-the-badge)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge)
+![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white&style=for-the-badge)
 ![Nodejs](https://img.shields.io/badge/Nodejs-43853d?logo=Node.js&logoColor=white&style=for-the-badge)
+![Golang](https://img.shields.io/badge/Go-ffffff?logo=go&logoColor=bllue&style=for-the-badge)
 ![MongoDB](https://img.shields.io/badge/MongoDB-13aa52?logo=mongodb&logoColor=white&style=for-the-badge)
 ![Postgres](https://img.shields.io/badge/Postgres-316192?logo=postgresql&logoColor=white&style=for-the-badge)
 ![Docker](https://img.shields.io/badge/Docker-46a2f1?logo=docker&logoColor=white&style=for-the-badge)
@@ -38,24 +43,24 @@ You can download and install Docker on https://docs.docker.com/desktop/install/w
 ### Network
 
 ```bash
-docker network create node-mongo-network
+docker network create my-network
 ```
 
 ### Ubuntu
 
 ```bash
-docker run --name node-mongo-ubuntu --network node-mongo-network -p 80:8080 -p 443:8443 -p 22:22 -itd ubuntu:latest
+docker run --name my-ubuntu --network my-network -p 80:8080 -p 443:8443 -p 22:22 -itd ubuntu:latest
 ```
 
 ### MongoDB
 
 ```bash
-docker run -d --network node-mongo-network --name node-mongo -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin mongo:latest
+docker run -d --network my-network --name my-mongo -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin mongo:latest
 
-docker exec -it node-mongo mongosh
+docker exec -it my-mongo mongosh
 ```
 
-#### URI
+Connection string:
 
 ```txt
 mongodb://admin:admin@localhost:27017/
@@ -64,21 +69,21 @@ mongodb://admin:admin@localhost:27017/
 ### PostgreSQL
 
 ```bash
-docker run --name node-postgres --network node-mongo-network -p 5432:5432 -e POSTGRES_DB=node -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -d postgres:latest
+docker run --name my-postgres --network my-network -p 5432:5432 -e POSTGRES_DB=mydb -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -d postgres:latest
 
-docker exec -it node-postgres psql -U admin -d node
+docker exec -it my-postgres psql -U admin -d mydb
 ```
 
-#### URI
+Connection string:
 
 ```txt
-postgres://admin:admin@localhost:5432/node?schema=public
+postgres://admin:admin@localhost:5432/mydb?schema=public
 ```
 
 ### Redis
 
 ```bash
-docker run -d --network node-mongo-network --name node-mongo-redis -p 6379:6379 redis:latest
+docker run -d --network my-network --name my-redis -p 6379:6379 redis:latest
 ```
 
 ## Coding Naming Conventions
@@ -257,12 +262,5 @@ Version APIs to avoid breaking changes:
 * Use HTTPS for all API requests.
 * Require authentication for sensitive data (JWT, OAuth, API Keys).
 * Use 403 Forbidden for unauthorized access attempts.
-
-## Visual Studio Extensions
-
-* Prettier
-* ESLint
-* SonarLint
-* Code Spell Checker
 
 ## Issues
